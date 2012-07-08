@@ -7,7 +7,7 @@
     <authors>Simon Cropp</authors>
     <owners>Simon Cropp</owners>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <projectUrl>http://code.google.com/p/freezable/</projectUrl>
+    <projectUrl>http://github.com/SimonCropp/Freezable</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Implements the Freezable pattern.</description>
     <summary />
