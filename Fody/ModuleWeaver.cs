@@ -32,7 +32,7 @@ public class ModuleWeaver
         var typeResolver = new TypeResolver();
         var implementsInterfaceFinder = new ImplementsInterfaceFinder(typeResolver);
 
-        var classes = ModuleDefinition.Types
+        var classes = ModuleDefinition.GetTypes()
             .Where(x => x.IsClass)
             .ToList();
         var assemblyProcessor = new AssemblyProcessor(freezeCheckerInjector, implementsInterfaceFinder, LogInfo);
