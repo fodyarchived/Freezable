@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Mono.Cecil;
 using NUnit.Framework;
+
 [TestFixture]
 public class IntegrationTests
 {
