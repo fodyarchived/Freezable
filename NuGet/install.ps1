@@ -3,8 +3,6 @@ $addinName = "Freezable"
 
 $project.ProjectItems.Item("Fody_ToBeDeleted.txt").Delete()
 
-$project.Save()
-
 $fodyWeaversPath = [System.IO.Path]::Combine([System.IO.Path]::GetDirectoryName($project.FullName), "FodyWeavers.xml")
 
 if (!(Test-Path ($fodyWeaversPath)))
