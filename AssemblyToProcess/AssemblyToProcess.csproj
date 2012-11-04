@@ -46,6 +46,7 @@
     <Compile Include="ClassWithGetProperty.cs" />
     <Compile Include="ClassWithSetProperty.cs" />
     <Compile Include="IFreezable.cs" />
+    <Compile Include="ISubFreezable.cs" />
     <Compile Include="SubClassToFreeze.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

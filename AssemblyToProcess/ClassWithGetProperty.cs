@@ -1,3 +1,5 @@
+using Freezable;
+
 public class ClassWithGetProperty : IFreezable
 {
     bool isFrozen;

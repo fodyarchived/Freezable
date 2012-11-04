@@ -1,4 +1,6 @@
-﻿public class ClassToFreeze : IFreezable
+﻿using Freezable;
+
+public class ClassToFreeze : IFreezable
 {
     bool isFrozen;
     public string Property { get; set; }

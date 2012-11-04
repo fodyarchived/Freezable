@@ -1,3 +1,5 @@
+using Freezable;
+
 public class ClassWithSetProperty : IFreezable
 {
     string property;

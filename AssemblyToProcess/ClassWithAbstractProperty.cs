@@ -1,3 +1,5 @@
+using Freezable;
+
 public class ClassWithAbstractProperty : IFreezable
 {
     bool isFrozen;
