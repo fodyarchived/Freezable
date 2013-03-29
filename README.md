@@ -4,7 +4,13 @@ Implements the Freezable pattern
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
-## Nuget package http://nuget.org/packages/Freezable.Fody 
+## Nuget
+
+Nuget package http://nuget.org/packages/Freezable.Fody 
+
+To Install from the Nuget Package Manager Console 
+    
+    PM> Install-Package Freezable.Fody
 
 ### Add an interface
 
