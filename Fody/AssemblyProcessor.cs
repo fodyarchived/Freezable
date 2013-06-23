@@ -19,7 +19,7 @@ public class AssemblyProcessor
     {
         foreach (var type in classes)
         {
-            var baseType = implementsInterfaceFinder.HierachyImplementsIFreezable(type);
+            var baseType = implementsInterfaceFinder.HierarchyImplementsIFreezable(type);
             if (baseType == null)
             {
                 continue;

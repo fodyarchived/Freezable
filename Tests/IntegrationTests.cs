@@ -43,7 +43,7 @@ public class IntegrationTests
     {
         var instance = assembly.GetInstance("ClassToFreeze");
         instance.Freeze();
-        instance.Property = "fsdf";
+        instance.Property = "aString";
     }
 
     [Test]
@@ -52,7 +52,7 @@ public class IntegrationTests
     {
         var instance = assembly.GetInstance("SubClassToFreeze");
         instance.Freeze();
-        instance.Property2 = "fsdf";
+        instance.Property2 = "aString";
     }
 
     [Test]
@@ -61,14 +61,14 @@ public class IntegrationTests
     {
         var instance = assembly.GetInstance("ClassToFreezeSubInterface");
         instance.Freeze();
-        instance.Property = "fsdf";
+        instance.Property = "aString";
     }
     
     [Test]
     public void NotFrozen()
     {
         var instance = assembly.GetInstance("ClassToFreeze");
-        instance.Property = "fsdf";
+        instance.Property = "aString";
     }
     
     [Test]
@@ -77,14 +77,14 @@ public class IntegrationTests
     {
         var instance = assembly.GetInstance("ClassWithSetProperty");
         instance.Freeze();
-        instance.Property = "fsdf";
+        instance.Property = "aString";
     }
 
     [Test]
     public void NotFrozenWithSetProperty()
     {
         var instance = assembly.GetInstance("ClassWithSetProperty");
-        instance.Property = "fsdf";
+        instance.Property = "aString";
     }
 
 #if(DEBUG)
