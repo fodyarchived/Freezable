@@ -15,13 +15,16 @@ public class VolatileTypeFinder
 
     public void Execute()
     {
-        var msCoreLibDefinition = assemblyResolver.Resolve("mscorlib");
-
-        var exceptionDefinition = msCoreLibDefinition
-            .MainModule
-            .Types
-            .First(x => x.Name == "IsVolatile");
-        VolatileReference = moduleDefinition.Import(exceptionDefinition);
+        var typeDefinition = GetTypeDefinition("mscorlib") ?? GetTypeDefinition("System.Runtime");
+        VolatileReference = moduleDefinition.Import(typeDefinition);
     }
 
+    TypeDefinition GetTypeDefinition(string assemblyName)
+    {
+        var msCoreLibDefinition = assemblyResolver.Resolve(assemblyName);
+        return msCoreLibDefinition
+            .MainModule
+            .Types
+            .FirstOrDefault(x => x.Name == "IsVolatile");
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Mono.Cecil;
 
-
 public class ExceptionFinder
 {
     ModuleDefinition moduleDefinition;
@@ -16,17 +15,20 @@ public class ExceptionFinder
 
     public void Execute()
     {
-        var msCoreLibDefinition = assemblyResolver.Resolve("mscorlib");
+        var exceptionType = GetExceptionType("mscorlib") ?? GetExceptionType("System.Runtime");
 
-        var exceptionDefinition = msCoreLibDefinition
-            .MainModule
-            .Types
-            .First(x => x.Name == "InvalidOperationException")
+        var exceptionDefinition = exceptionType
             .Methods
-            .First(x => x.IsConstructor && x.Parameters.Count == 1 && x.Parameters[0].ParameterType.Name=="String");
+            .First(x => x.IsConstructor && x.Parameters.Count == 1 && x.Parameters[0].ParameterType.Name == "String");
         ExceptionConstructorReference = moduleDefinition.Import(exceptionDefinition);
-
     }
 
-
+    TypeDefinition GetExceptionType(string assemblyName)
+    {
+        var msCoreLibDefinition = assemblyResolver.Resolve(assemblyName);
+        return msCoreLibDefinition
+            .MainModule
+            .Types
+            .FirstOrDefault(x => x.Name == "InvalidOperationException");
+    }
 }
