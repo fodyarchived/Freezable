@@ -28,7 +28,7 @@ public class FreezeCheckerInjector
             {
                 throw new WeavingException("CheckIfFrozen method needs to be protected");
             }
-            return CheckIsFrozenMethod;
+            return  moduleDefinition.Import(CheckIsFrozenMethod);
         }
         if (type.Module != moduleDefinition)
         {
