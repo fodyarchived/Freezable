@@ -6,14 +6,12 @@ Implements the Freezable pattern
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
-## Nuget
+## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/Freezable.Fody.svg?style=flat)](https://www.nuget.org/packages/Freezable.Fody/)
 
-Nuget package http://nuget.org/packages/Freezable.Fody 
+https://nuget.org/packages/Freezable.Fody/
 
-To Install from the Nuget Package Manager Console 
-    
     PM> Install-Package Freezable.Fody
-
+    
 ### Add an interface
 
     public interface IFreezable
