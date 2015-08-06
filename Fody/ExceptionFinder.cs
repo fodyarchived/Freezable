@@ -20,7 +20,7 @@ public class ExceptionFinder
         var exceptionDefinition = exceptionType
             .Methods
             .First(x => x.IsConstructor && x.Parameters.Count == 1 && x.Parameters[0].ParameterType.Name == "String");
-        ExceptionConstructorReference = moduleDefinition.Import(exceptionDefinition);
+        ExceptionConstructorReference = moduleDefinition.ImportReference(exceptionDefinition);
     }
 
     TypeDefinition GetExceptionType(string assemblyName)

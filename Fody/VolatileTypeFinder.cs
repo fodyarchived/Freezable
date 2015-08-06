@@ -16,7 +16,7 @@ public class VolatileTypeFinder
     public void Execute()
     {
         var typeDefinition = GetTypeDefinition("mscorlib") ?? GetTypeDefinition("System.Runtime");
-        VolatileReference = moduleDefinition.Import(typeDefinition);
+        VolatileReference = moduleDefinition.ImportReference(typeDefinition);
     }
 
     TypeDefinition GetTypeDefinition(string assemblyName)

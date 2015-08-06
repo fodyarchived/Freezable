@@ -22,9 +22,7 @@ public class IntegrationTests
         afterAssemblyPath = beforeAssemblyPath.Replace(".dll", "2.dll");
         File.Copy(beforeAssemblyPath, afterAssemblyPath, true);
 
-        var moduleDefinition = ModuleDefinition.ReadModule(afterAssemblyPath, new ReaderParameters
-        {
-        });
+        var moduleDefinition = ModuleDefinition.ReadModule(afterAssemblyPath, new ReaderParameters());
         var weavingTask = new ModuleWeaver
         {
             ModuleDefinition = moduleDefinition,
