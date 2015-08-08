@@ -41,13 +41,11 @@
     <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="NugetAssets\FodyWeavers.xml.install.xdt" />
-    <None Include="NugetAssets\FodyWeavers.xml.uninstall.xdt">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="NugetAssets\Freezable.nuspec">
       <SubType>Designer</SubType>
     </None>
+    <None Include="NugetAssets\install.ps" />
+    <None Include="NugetAssets\uninstall.ps" />
     <None Include="packages.config" />
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\FodyCecil.1.29.2\lib\net40\Mono.Cecil.dll</HintPath>
@@ -99,8 +97,8 @@
     <Copy SourceFiles="$(ProjectDir)NugetAssets\Freezable.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
     <Copy SourceFiles="$(OutputPath)Freezable.Fody.dll" DestinationFolder="$(SolutionDir)NuGetBuild" />
     <Copy SourceFiles="$(OutputPath)Freezable.Fody.pdb" DestinationFolder="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(ProjectDir)NugetAssets\FodyWeavers.xml.install.xdt" DestinationFolder="$(SolutionDir)NuGetBuild\Content" />
-    <Copy SourceFiles="$(ProjectDir)NugetAssets\FodyWeavers.xml.uninstall.xdt" DestinationFolder="$(SolutionDir)NuGetBuild\Content" />
+    <Copy SourceFiles="$(ProjectDir)NugetAssets\install.ps" DestinationFiles="$(SolutionDir)NuGetBuild\Tools\install.ps1" />
+    <Copy SourceFiles="$(ProjectDir)NugetAssets\uninstall.ps" DestinationFiles="$(SolutionDir)NuGetBuild\Tools\uninstall.ps1" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)Freezable.Fody.dll" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
