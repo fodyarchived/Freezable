@@ -50,9 +50,11 @@
     <Compile Include="ClassToFreezeSubInterface.cs" />
     <Compile Include="ClassWithAbstract.cs" />
     <Compile Include="ClassWithAbstractProperty.cs" />
+    <Compile Include="ClassWithExplicitProperty.cs" />
     <Compile Include="ClassWithGetProperty.cs" />
     <Compile Include="ClassWithSetProperty.cs" />
     <Compile Include="IFreezable.cs" />
+    <Compile Include="IProperty.cs" />
     <Compile Include="ISubFreezable.cs" />
     <Compile Include="MyDelegate.cs" />
     <Compile Include="MyEnum.cs" />
