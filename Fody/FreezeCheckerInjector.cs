@@ -32,7 +32,7 @@ public class FreezeCheckerInjector
         }
         if (type.Module != moduleDefinition)
         {
-            throw new WeavingException(string.Format("Could not inject to '{0}' because it is not in the target assembly.", type.FullName));
+            throw new WeavingException($"Could not inject to '{type.FullName}' because it is not in the target assembly.");
         }
         var fieldReference = fieldInjector.GetFieldReference(type);
         CheckIsFrozenMethod = checkIsFrozenBuilder.Build(fieldReference);

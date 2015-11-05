@@ -21,7 +21,7 @@ public class FieldInjector
         
         if (fieldReference.IsStatic)
         {
-            throw new WeavingException(string.Format("Field '{0}' can not be static.", fieldReference.FullName));
+            throw new WeavingException($"Field '{fieldReference.FullName}' can not be static.");
         }
         var fieldType = fieldReference.FieldType;
 
@@ -41,10 +41,10 @@ public class FieldInjector
 
     static FieldDefinition FindField(TypeDefinition type)
     {
-        var field = type.Fields.FirstOrDefault(x => (x.Name == "isFrozen" || x.Name == "_isFrozen"));
+        var field = type.Fields.FirstOrDefault(x => x.Name == "isFrozen" || x.Name == "_isFrozen");
         if (field == null)
         {
-            throw new WeavingException(string.Format("Expected to find field named 'isFrozen' or '_isFrozen' in type '{0}'.", type.FullName));
+            throw new WeavingException($"Expected to find field named 'isFrozen' or '_isFrozen' in type '{type.FullName}'.");
         }
         return field;
     }

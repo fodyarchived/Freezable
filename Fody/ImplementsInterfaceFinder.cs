@@ -35,7 +35,7 @@ public class ImplementsInterfaceFinder
 
     bool ShouldSkipBaseType(TypeDefinition type)
     {
-        return type.BaseType == null || (type.BaseType.FullName.StartsWith("System.Collections"));
+        return type.BaseType == null || type.BaseType.FullName.StartsWith("System.Collections");
     }
 
     TypeDefinition ToDefinition(TypeReference typeReference)

@@ -29,7 +29,7 @@ public class TypeResolver
         }
         catch (Exception exception)
         {
-            throw new Exception(string.Format("Could not resolve '{0}'.", reference.FullName), exception);
+            throw new Exception($"Could not resolve '{reference.FullName}'.", exception);
         }
     }
 }
