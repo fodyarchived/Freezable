@@ -85,6 +85,26 @@ public class IntegrationTests
         instance.Property = "aString";
     }
 
+    [Test]
+    public void FrozenWithExplicitProperty()
+    {
+        var instance = assembly.GetInstance("ClassWithExplicitProperty");
+        assembly.GetType("IProperty", true).InvokeMember("Property",
+            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[] { "aString" });
+    }
+
+    [Test]
+    public void NotFrozenWithExplicitProperty()
+    {
+        var instance = assembly.GetInstance("ClassWithExplicitProperty");
+        instance.Freeze();
+
+        Assert.That(() => assembly.GetType("IProperty", true).InvokeMember("Property",
+            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[] { "aString" }),
+            Throws.InnerException.TypeOf<InvalidOperationException>()
+            .And.InnerException.Message.EqualTo("Attempted to modify a frozen instance"));
+    }
+
 #if(DEBUG)
     [Test]
     public void PeVerify()

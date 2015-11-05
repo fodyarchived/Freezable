@@ -33,7 +33,7 @@ public class TypeProcessor
             {
                 continue;
             }
-            if (setMethod.IsPrivate)
+            if (setMethod.IsPrivate && !property.Name.Contains('.'))
             {
                 continue;
             }
