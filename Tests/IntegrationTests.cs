@@ -86,7 +86,7 @@ public class IntegrationTests
     }
 
     [Test]
-    public void FrozenWithImplicitProperty()
+    public void FrozenWithExplicitProperty()
     {
         var instance = assembly.GetInstance("ClassWithExplicitProperty");
         assembly.GetType("IProperty", true).InvokeMember("Property",
@@ -94,7 +94,7 @@ public class IntegrationTests
     }
 
     [Test]
-    public void NotFrozenWithImplicitProperty()
+    public void NotFrozenWithExplicitProperty()
     {
         var instance = assembly.GetInstance("ClassWithExplicitProperty");
         instance.Freeze();
