@@ -13,7 +13,7 @@ public class IntegrationTests
 
     public IntegrationTests()
     {
-        beforeAssemblyPath = Path.GetFullPath(@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll");
+        beforeAssemblyPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll"));
 #if (!DEBUG)
 
         beforeAssemblyPath = beforeAssemblyPath.Replace("Debug", "Release");
@@ -36,46 +36,46 @@ public class IntegrationTests
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Attempted to modify a frozen instance")]
     public void Frozen()
     {
         var instance = assembly.GetInstance("ClassToFreeze");
         instance.Freeze();
-        instance.Property = "aString";
+        var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
+        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Attempted to modify a frozen instance")]
     public void SubClass()
     {
         var instance = assembly.GetInstance("SubClassToFreeze");
         instance.Freeze();
-        instance.Property2 = "aString";
+        var exception = Assert.Throws<InvalidOperationException>(() => instance.Property2 = "aString");
+        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Attempted to modify a frozen instance")]
     public void FrozenSubInterface()
     {
         var instance = assembly.GetInstance("ClassToFreezeSubInterface");
         instance.Freeze();
-        instance.Property = "aString";
+        var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
+        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
     }
-    
+
     [Test]
     public void NotFrozen()
     {
         var instance = assembly.GetInstance("ClassToFreeze");
         instance.Property = "aString";
     }
-    
+
     [Test]
-    [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Attempted to modify a frozen instance")]
     public void FrozenWithSetProperty()
     {
         var instance = assembly.GetInstance("ClassWithSetProperty");
         instance.Freeze();
-        instance.Property = "aString";
+        var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
+        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
     }
 
     [Test]
