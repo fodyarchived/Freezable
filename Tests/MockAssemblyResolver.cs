@@ -6,23 +6,17 @@ public class MockAssemblyResolver : IAssemblyResolver
 {
     public AssemblyDefinition Resolve(AssemblyNameReference name)
     {
-        throw new NotImplementedException();
+        var codeBase = Assembly.Load(name.Name).CodeBase.Replace("file:///", "");
+        return AssemblyDefinition.ReadAssembly(codeBase);
     }
 
     public AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
     {
-        throw new NotImplementedException();
-    }
-
-    public AssemblyDefinition Resolve(string fullName)
-    {
-        var codeBase = Assembly.Load(fullName).CodeBase.Replace("file:///","");
-
+        var codeBase = Assembly.Load(name.Name).CodeBase.Replace("file:///", "");
         return AssemblyDefinition.ReadAssembly(codeBase);
     }
 
-    public AssemblyDefinition Resolve(string fullName, ReaderParameters parameters)
+    public void Dispose()
     {
-        throw new NotImplementedException();
     }
 }

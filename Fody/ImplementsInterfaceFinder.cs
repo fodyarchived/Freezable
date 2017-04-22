@@ -49,7 +49,7 @@ public class ImplementsInterfaceFinder
 
     bool ImplementsInterface(TypeDefinition typeDefinition)
     {
-        return typeDefinition.Interfaces.Any(x => x.Name == "IFreezable");
+        return typeDefinition.Interfaces.Any(x => x.InterfaceType.Name == "IFreezable");
     }
 
 

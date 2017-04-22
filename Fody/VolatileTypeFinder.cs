@@ -21,7 +21,7 @@ public class VolatileTypeFinder
 
     TypeDefinition GetTypeDefinition(string assemblyName)
     {
-        var msCoreLibDefinition = assemblyResolver.Resolve(assemblyName);
+        var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference(assemblyName, null));
         return msCoreLibDefinition
             .MainModule
             .Types

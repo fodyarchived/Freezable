@@ -2,5 +2,5 @@
 
 [assembly: AssemblyTitle("Freezable")]
 [assembly: AssemblyProduct("Freezable")]
-[assembly: AssemblyVersion("1.6.11")]
-[assembly: AssemblyFileVersion("1.6.11")]
+[assembly: AssemblyVersion("1.7.0")]
+[assembly: AssemblyFileVersion("1.7.0")]
