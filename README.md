@@ -1,3 +1,7 @@
+[![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg?style=flat)](https://gitter.im/Fody)
+[![NuGet Status](http://img.shields.io/nuget/v/Freezable.Fody.svg?style=flat)](https://www.nuget.org/packages/Freezable.Fody/)
+
+
 ## This is an add-in for [Fody](https://github.com/Fody/Fody/) 
 
 ![Icon](https://raw.github.com/Fody/Freezable/master/Icons/package_icon.png)
@@ -6,9 +10,8 @@ Implements the Freezable pattern
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
-[![NuGet Status](https://img.shields.io/gitter/room/fody/fody.svg?style=flat)](https://gitter.im/Fody/Fody)
 
-## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/Freezable.Fody.svg?style=flat)](https://www.nuget.org/packages/Freezable.Fody/)
+## The nuget package
 
 https://nuget.org/packages/Freezable.Fody/
 
@@ -66,8 +69,8 @@ https://nuget.org/packages/Freezable.Fody/
         }
 
     }        
-    
+
+
 ## Icon
 
 Icon courtesy of [The Noun Project](http://thenounproject.com)
-
