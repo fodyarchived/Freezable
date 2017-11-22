@@ -11,12 +11,36 @@ Implements the Freezable pattern
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
 
-## The nuget package
+## Usage
 
-https://nuget.org/packages/Freezable.Fody/
+See also [Fody usage](https://github.com/Fody/Fody#usage).
 
-    PM> Install-Package Freezable.Fody
-    
+
+### NuGet installation
+
+Install the [Freezable.Fody NuGet package](https://nuget.org/packages/Freezable.Fody/) and update the [Fody NuGet package](https://nuget.org/packages/Fody/):
+
+```
+PM> Install-Package Freezable.Fody
+PM> Update-Package Fody
+```
+
+The `Update-Package Fody` is required since NuGet always defaults to the oldest, and most buggy, version of any dependency.
+
+
+### Add to FodyWeavers.xml
+
+Add `<Freezable/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodyweaversxml)
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Weavers>
+  <Freezable/>
+</Weavers>
+```
+
+
+
 ### Add an interface
 
     public interface IFreezable
