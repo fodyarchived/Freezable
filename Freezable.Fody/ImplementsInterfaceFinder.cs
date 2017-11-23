@@ -14,10 +14,8 @@ public class ImplementsInterfaceFinder
     }
 
     public TypeDefinition HierarchyImplementsIFreezable(TypeReference typeReference)
-    {
-        TypeDefinition baseType;
-        var fullName = typeReference.FullName;
-        if (!typeReferencesImplementingInterface.TryGetValue(fullName, out baseType))
+    {        var fullName = typeReference.FullName;
+        if (!typeReferencesImplementingInterface.TryGetValue(fullName, out var baseType))
         {
             var type = ToDefinition(typeReference);
             if (ImplementsInterface(type))
@@ -51,6 +49,4 @@ public class ImplementsInterfaceFinder
     {
         return typeDefinition.Interfaces.Any(x => x.InterfaceType.Name == "IFreezable");
     }
-
-
 }

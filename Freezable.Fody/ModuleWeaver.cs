@@ -18,15 +18,12 @@ public class ModuleWeaver
         var freezableTypeFinder = new FreezableTypeFinder(ModuleDefinition, AssemblyResolver);
         freezableTypeFinder.Execute();
 
-        var exceptionFinder = new ExceptionFinder(ModuleDefinition, AssemblyResolver);
-        exceptionFinder.Execute();
+        var typeFinder = new TypeFinder(ModuleDefinition, AssemblyResolver, LogInfo);
+        typeFinder.Execute();
 
-        var volatileFinder = new VolatileTypeFinder(ModuleDefinition, AssemblyResolver);
-        volatileFinder.Execute();
-
-        var volatileFieldFixer = new VolatileFieldFixer(volatileFinder);
-        var fieldInjector = new FieldInjector(volatileFinder, ModuleDefinition.TypeSystem, volatileFieldFixer);
-        var checkIsFrozenBuilder = new CheckIsFrozenBuilder(ModuleDefinition.TypeSystem, exceptionFinder);
+        var volatileFieldFixer = new VolatileFieldFixer(typeFinder);
+        var fieldInjector = new FieldInjector(typeFinder, ModuleDefinition.TypeSystem, volatileFieldFixer);
+        var checkIsFrozenBuilder = new CheckIsFrozenBuilder(ModuleDefinition.TypeSystem, typeFinder);
         var freezeCheckerInjector = new FreezeCheckerInjector(ModuleDefinition, fieldInjector, checkIsFrozenBuilder);
 
         var typeResolver = new TypeResolver();
@@ -39,6 +36,5 @@ public class ModuleWeaver
         assemblyProcessor.Execute(classes);
 
         volatileFieldFixer.Execute(classes);
-
     }
 }

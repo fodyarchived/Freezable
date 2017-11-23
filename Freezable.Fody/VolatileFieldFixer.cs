@@ -4,11 +4,11 @@ using Mono.Cecil.Cil;
 
 public class VolatileFieldFixer
 {
-    VolatileTypeFinder volatileTypeFinder;
+    TypeFinder typeFinder;
     public List<FieldReference> Fields;
-    public VolatileFieldFixer(VolatileTypeFinder volatileTypeFinder)
+    public VolatileFieldFixer(TypeFinder typeFinder)
     {
-        this.volatileTypeFinder = volatileTypeFinder;
+        this.typeFinder = typeFinder;
         Fields = new List<FieldReference>();
     }
 
@@ -17,7 +17,7 @@ public class VolatileFieldFixer
         foreach (var typeDefinition in allClasses)
         {
             ProcessType(typeDefinition);
-        }   
+        }
     }
 
     void ProcessType(TypeDefinition typeDefinition)
@@ -42,20 +42,21 @@ public class VolatileFieldFixer
         for (var i = 0; i < instructions.Count; i++)
         {
             var instruction = instructions[i];
-            if (instruction.OpCode == OpCodes.Stfld || instruction.OpCode == OpCodes.Ldfld)
+            if (instruction.OpCode != OpCodes.Stfld && instruction.OpCode != OpCodes.Ldfld)
             {
-                var fieldReference = instruction.Operand as FieldReference;
-                if (fieldReference == null)
-                {
-                    continue;
-                }
-                if (fieldReference.FieldType != volatileTypeFinder.VolatileReference)
-                {
-                    continue;
-                }
-                instructions.Insert(i,Instruction.Create(OpCodes.Volatile));
-                i++;
+                continue;
             }
+            var fieldReference = instruction.Operand as FieldReference;
+            if (fieldReference == null)
+            {
+                continue;
+            }
+            if (fieldReference.FieldType != typeFinder.VolatileReference)
+            {
+                continue;
+            }
+            instructions.Insert(i,Instruction.Create(OpCodes.Volatile));
+            i++;
         }
     }
 }

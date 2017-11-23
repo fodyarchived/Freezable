@@ -4,12 +4,7 @@ public class ClassWithGetProperty : IFreezable
 {
     bool isFrozen;
 
-    public string Property
-    {
-        get { return ""; }
-    }
-
-    public void Freeze()
+    public string Property => "";    public void Freeze()
     {
         isFrozen = true;
     }

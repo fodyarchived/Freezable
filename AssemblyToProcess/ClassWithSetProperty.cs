@@ -1,14 +1,13 @@
 using Freezable;
+// ReSharper disable NotAccessedField.Local
 
 public class ClassWithSetProperty : IFreezable
 {
     string property;
     bool isFrozen;
 
-    public string Property
-    {
-        set { property = value; }
-    }
+    public string Property    {
+        set => property = value;    }
 
     public void Freeze()
     {

@@ -4,20 +4,20 @@ using Mono.Cecil.Cil;
 public class CheckIsFrozenBuilder
 {
     TypeSystem typeSystem;
-    ExceptionFinder exceptionFinder;
+    TypeFinder typeFinder;
 
-    public CheckIsFrozenBuilder(TypeSystem typeSystem, ExceptionFinder exceptionFinder)
+    public CheckIsFrozenBuilder(TypeSystem typeSystem, TypeFinder typeFinder)
     {
         this.typeSystem = typeSystem;
-        this.exceptionFinder = exceptionFinder;
+        this.typeFinder = typeFinder;
     }
 
     public MethodDefinition Build(FieldReference fieldReference)
     {
         var isFrozenMethod = new MethodDefinition("CheckIfFrozen", MethodAttributes.Family, typeSystem.Void)
-                                 {
-                                     IsHideBySig = true,
-                                 };
+        {
+            IsHideBySig = true,
+        };
         var ret = Instruction.Create(OpCodes.Ret);
         var instructions = isFrozenMethod.Body.Instructions;
         instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
@@ -28,7 +28,7 @@ public class CheckIsFrozenBuilder
         instructions.Add(Instruction.Create(OpCodes.Ldfld, fieldReference));
         instructions.Add(Instruction.Create(OpCodes.Brfalse_S, ret));
         instructions.Add(Instruction.Create(OpCodes.Ldstr, "Attempted to modify a frozen instance"));
-        instructions.Add(Instruction.Create(OpCodes.Newobj, exceptionFinder.ExceptionConstructorReference));
+        instructions.Add(Instruction.Create(OpCodes.Newobj, typeFinder.ExceptionConstructorReference));
         instructions.Add(Instruction.Create(OpCodes.Throw));
         instructions.Add(ret);
         return isFrozenMethod;

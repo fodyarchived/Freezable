@@ -45,5 +45,4 @@ public class FreezeCheckerInjector
         return method.Name == "CheckIfFrozen" &&
                method.Parameters.Count == 0;
     }
-
 }

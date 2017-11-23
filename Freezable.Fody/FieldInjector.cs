@@ -3,13 +3,13 @@ using Mono.Cecil;
 
 public class FieldInjector
 {
-    VolatileTypeFinder volatileTypeFinder;
+    TypeFinder typeFinder;
     TypeSystem typeSystem;
     VolatileFieldFixer volatileFieldFixer;
 
-    public FieldInjector(VolatileTypeFinder volatileTypeFinder, TypeSystem typeSystem, VolatileFieldFixer volatileFieldFixer)
+    public FieldInjector(TypeFinder typeFinder, TypeSystem typeSystem, VolatileFieldFixer volatileFieldFixer)
     {
-        this.volatileTypeFinder = volatileTypeFinder;
+        this.typeFinder = typeFinder;
         this.typeSystem = typeSystem;
         this.volatileFieldFixer = volatileFieldFixer;
     }
@@ -17,8 +17,8 @@ public class FieldInjector
     public FieldReference GetFieldReference(TypeDefinition type)
     {
         var fieldReference = FindField(type);
-        var modifierType = new RequiredModifierType(volatileTypeFinder.VolatileReference, typeSystem.Boolean);
-        
+        var modifierType = new RequiredModifierType(typeFinder.VolatileReference, typeSystem.Boolean);
+
         if (fieldReference.IsStatic)
         {
             throw new WeavingException($"Field '{fieldReference.FullName}' can not be static.");
@@ -42,10 +42,10 @@ public class FieldInjector
     static FieldDefinition FindField(TypeDefinition type)
     {
         var field = type.Fields.FirstOrDefault(x => x.Name == "isFrozen" || x.Name == "_isFrozen");
-        if (field == null)
+        if (field != null)
         {
-            throw new WeavingException($"Expected to find field named 'isFrozen' or '_isFrozen' in type '{type.FullName}'.");
+            return field;
         }
-        return field;
+        throw new WeavingException($"Expected to find field named 'isFrozen' or '_isFrozen' in type '{type.FullName}'.");
     }
 }

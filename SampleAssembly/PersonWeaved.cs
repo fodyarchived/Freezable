@@ -18,14 +18,11 @@ public class PersonWeaved : IFreezable
     }
 
     string name;
-    public string Name
-    {
-        get { return name; }
-        set
+    public string Name    {
+        get => name;        set
         {
             CheckIfFrozen();
             name = value;
         }
     }
-
 }
