@@ -8,9 +8,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FodyCecil" Version="2.*" />
-    <PackageReference Include="PepitaPackage" Version="*" />
+    <PackageReference Include="PepitaPackage" Version="1.*" />
   </ItemGroup>
-  <Target Name="BuildNugets" AfterTargets="CopyFilesToOutputDirectory">
+  <Target Name="BuildNugets" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(ConfigurationName)' == 'Release'">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)nugets\**\*.*" />
     </ItemGroup>
