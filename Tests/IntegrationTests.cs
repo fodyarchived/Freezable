@@ -12,7 +12,11 @@ public class IntegrationTests
     static IntegrationTests()
     {
         var weavingTask = new ModuleWeaver();
+#if(NET46)
         testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll");
+#else
+        testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll", runPeVerify: false);
+#endif
         assembly = testResult.Assembly;
     }
 
