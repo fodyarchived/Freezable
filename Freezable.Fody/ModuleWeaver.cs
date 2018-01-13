@@ -1,24 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Mono.Cecil;
+using Fody;
 
-public class ModuleWeaver
+public class ModuleWeaver:BaseModuleWeaver
 {
-    public Action<string> LogInfo { get; set; }
-    public ModuleDefinition ModuleDefinition { get; set; }
-    public IAssemblyResolver AssemblyResolver { get; set; }
-
-    public ModuleWeaver()
+    public override void Execute()
     {
-        LogInfo = s => { };
-    }
-
-    public void Execute()
-    {
-        var freezableTypeFinder = new FreezableTypeFinder(ModuleDefinition, AssemblyResolver);
+        var freezableTypeFinder = new FreezableTypeFinder(ModuleDefinition, ResolveAssembly);
         freezableTypeFinder.Execute();
-
-        var typeFinder = new TypeFinder(ModuleDefinition, AssemblyResolver, LogInfo);
+        var typeFinder = new TypeFinder(ModuleDefinition,FindType);
         typeFinder.Execute();
 
         var volatileFieldFixer = new VolatileFieldFixer(typeFinder);
@@ -37,4 +27,13 @@ public class ModuleWeaver
 
         volatileFieldFixer.Execute(classes);
     }
+
+    public override IEnumerable<string> GetAssembliesForScanning()
+    {
+        yield return "mscorlib";
+        yield return "System.Runtime";
+        yield return "netstandard";
+    }
+
+    public override bool ShouldCleanReference => true;
 }

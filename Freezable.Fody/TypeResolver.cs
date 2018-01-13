@@ -12,7 +12,8 @@ public class TypeResolver
     }
 
     public TypeDefinition Resolve(TypeReference reference)
-    {        if (definitions.TryGetValue(reference.FullName, out var definition))
+    {
+        if (definitions.TryGetValue(reference.FullName, out var definition))
         {
             return definition;
         }

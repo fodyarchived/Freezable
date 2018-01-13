@@ -1,110 +1,96 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
-using Mono.Cecil;
-using NUnit.Framework;
+using Fody;
+using Xunit;
+#pragma warning disable 618
 
-[TestFixture]
 public class IntegrationTests
 {
-    Assembly assembly;
-    string beforeAssemblyPath;
-    string afterAssemblyPath;
+    static Assembly assembly;
+    static TestResult testResult;
 
-    public IntegrationTests()
+    static IntegrationTests()
     {
-        beforeAssemblyPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "AssemblyToProcess.dll");
-        afterAssemblyPath = beforeAssemblyPath.Replace(".dll", "2.dll");
-        File.Copy(beforeAssemblyPath, afterAssemblyPath, true);
-
-        using (var moduleDefinition = ModuleDefinition.ReadModule(beforeAssemblyPath, new ReaderParameters()))
-        {
-            var weavingTask = new ModuleWeaver
-            {
-                ModuleDefinition = moduleDefinition,
-                AssemblyResolver = new MockAssemblyResolver()
-            };
-
-            weavingTask.Execute();
-            moduleDefinition.Write(afterAssemblyPath);
-        }
-
-        assembly = Assembly.LoadFile(afterAssemblyPath);
+        var weavingTask = new ModuleWeaver();
+        testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll");
+        assembly = testResult.Assembly;
     }
 
-    [Test]
+    [Fact]
     public void Frozen()
     {
-        var instance = assembly.GetInstance("ClassToFreeze");
+        var instance = testResult.GetInstance("ClassToFreeze");
         instance.Freeze();
         var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
-        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
+        Assert.Equal("Attempted to modify a frozen instance", exception.Message);
     }
 
-    [Test]
+    [Fact]
     public void SubClass()
     {
-        var instance = assembly.GetInstance("SubClassToFreeze");
+        var instance = testResult.GetInstance("SubClassToFreeze");
         instance.Freeze();
         var exception = Assert.Throws<InvalidOperationException>(() => instance.Property2 = "aString");
-        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
+        Assert.Equal("Attempted to modify a frozen instance", exception.Message);
     }
 
-    [Test]
+    [Fact]
     public void FrozenSubInterface()
     {
-        var instance = assembly.GetInstance("ClassToFreezeSubInterface");
+        var instance = testResult.GetInstance("ClassToFreezeSubInterface");
         instance.Freeze();
         var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
-        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
+        Assert.Equal("Attempted to modify a frozen instance", exception.Message);
     }
 
-    [Test]
+    [Fact]
     public void NotFrozen()
     {
-        var instance = assembly.GetInstance("ClassToFreeze");
+        var instance = testResult.GetInstance("ClassToFreeze");
         instance.Property = "aString";
     }
 
-    [Test]
+    [Fact]
     public void FrozenWithSetProperty()
     {
-        var instance = assembly.GetInstance("ClassWithSetProperty");
+        var instance = testResult.GetInstance("ClassWithSetProperty");
         instance.Freeze();
         var exception = Assert.Throws<InvalidOperationException>(() => instance.Property = "aString");
-        Assert.AreEqual("Attempted to modify a frozen instance", exception.Message);
+        Assert.Equal("Attempted to modify a frozen instance", exception.Message);
     }
 
-    [Test]
+    [Fact]
     public void NotFrozenWithSetProperty()
     {
-        var instance = assembly.GetInstance("ClassWithSetProperty");
+        var instance = testResult.GetInstance("ClassWithSetProperty");
         instance.Property = "aString";
     }
 
-    [Test]
+    [Fact]
     public void FrozenWithExplicitProperty()
     {
-        var instance = assembly.GetInstance("ClassWithExplicitProperty");
+        var instance = testResult.GetInstance("ClassWithExplicitProperty");
         assembly.GetType("IProperty", true).InvokeMember("Property",
-            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[] { "aString" });
+            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[]
+            {
+                "aString"
+            });
     }
 
-    [Test]
+    [Fact]
     public void NotFrozenWithExplicitProperty()
     {
-        var instance = assembly.GetInstance("ClassWithExplicitProperty");
+        var instance = testResult.GetInstance("ClassWithExplicitProperty");
         instance.Freeze();
 
-        Assert.That(() => assembly.GetType("IProperty", true).InvokeMember("Property",
-            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[] { "aString" }),
-            Throws.InnerException.TypeOf<InvalidOperationException>()
-            .And.InnerException.Message.EqualTo("Attempted to modify a frozen instance"));
-    }
-
-    [Test]
-    public void PeVerify()
-    {
-        Verifier.Verify(beforeAssemblyPath,afterAssemblyPath);
+        var type = assembly.GetType("IProperty", true);
+        var exception = Assert.Throws<TargetInvocationException>(() => type.InvokeMember("Property",
+            BindingFlags.SetProperty, Type.DefaultBinder, instance, new object[]
+            {
+                "aString"
+            }));
+        var innerException = exception.InnerException;
+        Assert.IsType<InvalidOperationException>(innerException);
+        Assert.Equal("Attempted to modify a frozen instance", innerException.Message);
     }
 }

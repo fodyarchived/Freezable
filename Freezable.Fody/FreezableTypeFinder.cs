@@ -1,17 +1,18 @@
+using System;
 using System.Linq;
 using Mono.Cecil;
 
 public class FreezableTypeFinder
 {
     ModuleDefinition moduleDefinition;
+    Func<string, AssemblyDefinition> resolveAssembly;
     public TypeReference FreezableType;
     public MethodReference GetIsFrozenMethod;
-    IAssemblyResolver assemblyResolver;
 
-    public FreezableTypeFinder(ModuleDefinition moduleDefinition, IAssemblyResolver assemblyResolver)
+    public FreezableTypeFinder(ModuleDefinition moduleDefinition, Func<string, AssemblyDefinition> resolveAssembly)
     {
         this.moduleDefinition = moduleDefinition;
-        this.assemblyResolver = assemblyResolver;
+        this.resolveAssembly = resolveAssembly;
     }
 
     public void Execute()
@@ -23,7 +24,7 @@ public class FreezableTypeFinder
         }
         foreach (var reference in moduleDefinition.AssemblyReferences)
         {
-            var mainModule = assemblyResolver.Resolve(reference).MainModule;
+            var mainModule = resolveAssembly(reference.Name).MainModule;
             FreezableType = mainModule.Types.FirstOrDefault(x => x.Name == "IFreezable");
             if (FreezableType != null)
             {

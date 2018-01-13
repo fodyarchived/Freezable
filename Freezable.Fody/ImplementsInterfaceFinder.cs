@@ -14,7 +14,8 @@ public class ImplementsInterfaceFinder
     }
 
     public TypeDefinition HierarchyImplementsIFreezable(TypeReference typeReference)
-    {        var fullName = typeReference.FullName;
+    {
+        var fullName = typeReference.FullName;
         if (!typeReferencesImplementingInterface.TryGetValue(fullName, out var baseType))
         {
             var type = ToDefinition(typeReference);

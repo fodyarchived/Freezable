@@ -1,24 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs" />
+    <PackageReference Include="FodyHelpers" Version="2.3.19" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FodyCecil" Version="2.*" />
-    <PackageReference Include="PepitaPackage" Version="1.*" />
-  </ItemGroup>
-  <Target Name="BuildNugets" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(ConfigurationName)' == 'Release'">
-    <ItemGroup>
-      <FilesToDelete Include="$(SolutionDir)nugets\**\*.*" />
-    </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
-    <MakeDir Directories="$(SolutionDir)nugets" />
-    <Copy SourceFiles="$(ProjectDir)Freezable.Fody.nuspec" DestinationFolder="$(SolutionDir)nugets" />
-    <Copy SourceFiles="$(ProjectDir)bin\$(ConfigurationName)\net452\Freezable.Fody.dll" DestinationFolder="$(SolutionDir)nugets" />
-    <Copy SourceFiles="$(ProjectDir)bin\$(ConfigurationName)\net452\Freezable.Fody.pdb" DestinationFolder="$(SolutionDir)nugets" />
-    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)nugets" MetadataAssembly="$(OutputPath)Freezable.Fody.dll" />
-  </Target>
 </Project>

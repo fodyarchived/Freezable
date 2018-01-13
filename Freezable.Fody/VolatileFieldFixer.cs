@@ -46,8 +46,8 @@ public class VolatileFieldFixer
             {
                 continue;
             }
-            var fieldReference = instruction.Operand as FieldReference;
-            if (fieldReference == null)
+
+            if (!(instruction.Operand is FieldReference fieldReference))
             {
                 continue;
             }

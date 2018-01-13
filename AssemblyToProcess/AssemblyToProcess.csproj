@@ -3,5 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
     <NoWarn>CS0414</NoWarn>
+    <DisableFody>true</DisableFody>
   </PropertyGroup>
 </Project>

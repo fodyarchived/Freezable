@@ -1,54 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil;
 
 public class TypeFinder
 {
     ModuleDefinition moduleDefinition;
-    IAssemblyResolver assemblyResolver;
-    Action<string> logInfo;
+    Func<string, TypeDefinition> findType;
     public MethodReference ExceptionConstructorReference;
     public TypeReference VolatileReference;
 
-    public TypeFinder(ModuleDefinition moduleDefinition, IAssemblyResolver assemblyResolver, Action<string> logInfo)
+    public TypeFinder(ModuleDefinition moduleDefinition, Func<string, TypeDefinition> findType)
     {
         this.moduleDefinition = moduleDefinition;
-        this.assemblyResolver = assemblyResolver;
-        this.logInfo = logInfo;
+        this.findType = findType;
     }
 
     public void Execute()
     {
-        var coreTypes = new List<TypeDefinition>();
-        AddAssemblyIfExists("mscorlib", coreTypes);
-        AddAssemblyIfExists("System.Runtime", coreTypes);
-        AddAssemblyIfExists("netstandard", coreTypes);
-
-        FindExceptionType(coreTypes);
-        FindVolatileType(coreTypes);
+        FindExceptionType();
+        FindVolatileType();
     }
 
-    void FindVolatileType(List<TypeDefinition> coreTypes)
+    void FindVolatileType()
     {
-        var isVolatile = coreTypes.FirstOrDefault(x => x.Name == "IsVolatile");
-
-        if (isVolatile == null)
-        {
-            throw new WeavingException("Could not find IsVolatile");
-        }
+        var isVolatile = findType("System.Runtime.CompilerServices.IsVolatile");
 
         VolatileReference = moduleDefinition.ImportReference(isVolatile);
     }
 
-    void FindExceptionType(List<TypeDefinition> coreTypes)
+    void FindExceptionType()
     {
-        var exceptionType = coreTypes.FirstOrDefault(x => x.Name == "InvalidOperationException");
-
-        if (exceptionType == null)
-        {
-            throw new WeavingException("Could not find InvalidOperationException");
-        }
+        var exceptionType = findType("System.InvalidOperationException");
 
         var methodDefinition = exceptionType.Methods
             .First(x => x.IsConstructor &&
@@ -56,25 +38,5 @@ public class TypeFinder
                         x.Parameters[0].ParameterType.Name == "String");
 
         ExceptionConstructorReference = moduleDefinition.ImportReference(methodDefinition);
-    }
-
-    void AddAssemblyIfExists(string name, List<TypeDefinition> types)
-    {
-        AssemblyDefinition msCoreLibDefinition;
-        try
-        {
-            msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference(name, null));
-        }
-        catch (AssemblyResolutionException)
-        {
-            logInfo($"Failed to resolve '{name}'. So skipping its types.");
-            return;
-        }
-        if (msCoreLibDefinition == null)
-        {
-            return;
-        }
-        var module = msCoreLibDefinition.MainModule;
-        types.AddRange(module.Types);
     }
 }
