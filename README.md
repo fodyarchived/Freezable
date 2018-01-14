@@ -4,7 +4,7 @@
 
 ## This is an add-in for [Fody](https://github.com/Fody/Fody/)
 
-![Icon](https://raw.github.com/Fody/Freezable/master/package_icon.png)
+![Icon](https://raw.githubusercontent.com/Fody/Freezable/master/package_icon.png)
 
 Implements the Freezable pattern
 
