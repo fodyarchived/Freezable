@@ -1,5 +1,6 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using TypeSystem = Fody.TypeSystem;
 
 public class CheckIsFrozenBuilder
 {
@@ -14,7 +15,7 @@ public class CheckIsFrozenBuilder
 
     public MethodDefinition Build(FieldReference fieldReference)
     {
-        var isFrozenMethod = new MethodDefinition("CheckIfFrozen", MethodAttributes.Family, typeSystem.Void)
+        var isFrozenMethod = new MethodDefinition("CheckIfFrozen", MethodAttributes.Family, typeSystem.VoidReference)
         {
             IsHideBySig = true,
         };

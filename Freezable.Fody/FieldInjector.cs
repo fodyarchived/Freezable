@@ -1,6 +1,7 @@
 using System.Linq;
 using Fody;
 using Mono.Cecil;
+using TypeSystem = Fody.TypeSystem;
 
 public class FieldInjector
 {
@@ -18,7 +19,7 @@ public class FieldInjector
     public FieldReference GetFieldReference(TypeDefinition type)
     {
         var fieldReference = FindField(type);
-        var modifierType = new RequiredModifierType(typeFinder.VolatileReference, typeSystem.Boolean);
+        var modifierType = new RequiredModifierType(typeFinder.VolatileReference, typeSystem.BooleanReference);
 
         if (fieldReference.IsStatic)
         {

@@ -12,8 +12,8 @@ public class ModuleWeaver:BaseModuleWeaver
         typeFinder.Execute();
 
         var volatileFieldFixer = new VolatileFieldFixer(typeFinder);
-        var fieldInjector = new FieldInjector(typeFinder, ModuleDefinition.TypeSystem, volatileFieldFixer);
-        var checkIsFrozenBuilder = new CheckIsFrozenBuilder(ModuleDefinition.TypeSystem, typeFinder);
+        var fieldInjector = new FieldInjector(typeFinder, TypeSystem, volatileFieldFixer);
+        var checkIsFrozenBuilder = new CheckIsFrozenBuilder(TypeSystem, typeFinder);
         var freezeCheckerInjector = new FreezeCheckerInjector(ModuleDefinition, fieldInjector, checkIsFrozenBuilder);
 
         var typeResolver = new TypeResolver();
@@ -30,9 +30,7 @@ public class ModuleWeaver:BaseModuleWeaver
 
     public override IEnumerable<string> GetAssembliesForScanning()
     {
-        yield return "mscorlib";
-        yield return "System.Runtime";
-        yield return "netstandard";
+        return Enumerable.Empty<string>();
     }
 
     public override bool ShouldCleanReference => true;
