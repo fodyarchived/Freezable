@@ -20,12 +20,12 @@ See also [Fody usage](https://github.com/Fody/Fody#usage).
 
 Install the [Freezable.Fody NuGet package](https://nuget.org/packages/Freezable.Fody/) and update the [Fody NuGet package](https://nuget.org/packages/Fody/):
 
-```
+```powershell
+PM> Install-Package Fody
 PM> Install-Package Freezable.Fody
-PM> Update-Package Fody
 ```
 
-The `Update-Package Fody` is required since NuGet always defaults to the oldest, and most buggy, version of any dependency.
+The `Install-Package Fody` is required since NuGet always defaults to the oldest, and most buggy, version of any dependency.
 
 
 ### Add to FodyWeavers.xml
@@ -40,10 +40,9 @@ Add `<Freezable/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodywea
 ```
 
 
-
 ### Add an interface
 
-```
+```csharp
 public interface IFreezable
 {
     void Freeze();
@@ -53,7 +52,7 @@ public interface IFreezable
 
 ### Add a freezable class
 
-```
+```csharp
 public class Person : IFreezable
 {
     bool isFrozen;
@@ -69,7 +68,7 @@ public class Person : IFreezable
 
 ### What gets compiled
 
-```
+```csharp
 public class Person : IFreezable
 {
     volatile bool isFrozen;
